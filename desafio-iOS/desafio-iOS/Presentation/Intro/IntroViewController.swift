@@ -23,7 +23,6 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationAppearance()
-        // Do any additional setup after loading the view.
         introView.setup()
         configBindings()
         buttonAction()

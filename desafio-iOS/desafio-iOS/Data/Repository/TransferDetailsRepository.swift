@@ -41,10 +41,8 @@ final class TransferDetailsRepository: TransferDetailsRepositoryProtocol {
             }
 
             let transaction = try JSONDecoder().decode(TransferDetailsResponseModel.self, from: data)
-            print(transaction)
             return transaction
         } catch {
-            print(error)
             throw error
         }
     }

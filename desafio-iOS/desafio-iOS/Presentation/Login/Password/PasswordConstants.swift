@@ -6,6 +6,5 @@ struct PasswordConstants {
     let nextTextButton = "Próximo"
 
     // MARK: Navigation
-
     let navigationTitle = "Login Cora"
 }

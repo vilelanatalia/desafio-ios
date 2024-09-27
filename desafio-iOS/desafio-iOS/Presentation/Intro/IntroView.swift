@@ -81,7 +81,6 @@ extension IntroView: ViewCode {
     }
 
     func setupConstraints() {
-        // Definir constraints para a imageView
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),

@@ -8,6 +8,5 @@ struct TransferDetailsViewConstants {
     let shareButtonText = "Compartilhar comprovante"
 
     // MARK: Navigation
-
     let navigationTitle = "Detalhes da transferência"
 }
