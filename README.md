@@ -12,7 +12,7 @@ Antes de desenvolvê-lo, me guiei a partir das seguintes informações, buscando
 
 A partir do Deployment Target, optei por trabalhar com UIKit por entender que geraria uma compatibilidade de implementação com o aplicativo original. 
 Quanto ao repositório do Git do Cora, achei interessante trabalhar sob o modelo de template disposto por vocês. Portanto, utilizo o design pattern __MVVM__ e a __Clean architecture__. Pois além de gerar escalabilidade e testabilidade, também sigo as boas práticas de implementação da equipe de desenvolvimento do Cora.
-____
+
 ## Funcionalidades: 
 
 Em específico, o projeto dispõe das seguintes funcionalidades. 
@@ -20,17 +20,21 @@ Em específico, o projeto dispõe das seguintes funcionalidades.
 - Login do usuário: 
 - Extrato do usuário 
 - Detalhes da transação
-___
+
 ## Execução do projeto 
 
-___
+Para executar o projeto, você deve clonar o repositório através do terminal utilizando o seguinte comando: 
+``` 
+git clone https://github.com/vilelanatalia/desafio-ios.git
+```
+
+
 ## Testes 
 
 Até o momento, a cobertura de testes do projeto possui uma baixa porcentagem. Contudo, a prioridade a partir de agora é mudar o atual escopo e cobrir uma porcentagem maior. 
 
 Entretanto, em respeito ao prazo proposto pelo desafio, os testes serão implementados em uma outra branch apenas para exercer a boa prática de criar e executar testes.
 
-___
 ## Pontos de melhoria 
 
 Durante a implementação, enfrentei alguns dilemas, especialmente em relação a UI do projeto e acredito que o principal motivo foi por não estar tão habituada com UIKit. 
