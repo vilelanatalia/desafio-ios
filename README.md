@@ -1,188 +1,72 @@
-<div align="center">
-
-  <img src="https://user-images.githubusercontent.com/55195343/153007587-318033ab-05d7-402a-b2aa-2a1ec0f69717.png" width="100" height="100">
-
 # Desafio iOS
 
- </div>
+
+## Introdução 
+
+Este é o projeto de conclusão do desafio-iOS do Banco Cora, cujo objetivo foi simular o fluxo de acesso de um usuário ao app do banco.
+
+Antes de desenvolvê-lo, me guiei a partir das seguintes informações, buscando entregar um projeto com a cara da Cora ser assertiva nas tomadas de decisão que permeiam sua implementação.
+
+- Cora App na Appstore: iOS Deployment Target = 13.0 
+- CoraBank GitHub Repository: iOS Community
+
+A partir do Deployment Target, optei por trabalhar com UIKit por entender que geraria uma compatibilidade de implementação com o aplicativo original. 
+Quanto ao repositório do Git do Cora, achei interessante trabalhar sob o modelo de template disposto por vocês. Portanto, utilizo o design pattern __MVVM__ e a __Clean architecture__. Pois além de gerar escalabilidade e testabilidade, também sigo as boas práticas de implementação da equipe de desenvolvimento do Cora.
+
+## Funcionalidades: 
+
+Em específico, o projeto dispõe das seguintes funcionalidades. 
+
+- Login do usuário: 
+- Extrato do usuário 
+- Detalhes da transação
+
+## Execução do projeto 
+
+Para executar o projeto, você deve clonar o repositório através do terminal utilizando o seguinte comando: 
+``` 
+git clone https://github.com/vilelanatalia/desafio-ios.git
+```
+
+
+## Testes 
+
+Até o momento, a cobertura de testes do projeto possui uma baixa porcentagem. Contudo, a prioridade a partir de agora é mudar o atual escopo e cobrir uma porcentagem maior. 
+
+Entretanto, em respeito ao prazo proposto pelo desafio, os testes serão implementados em uma outra branch apenas para exercer a boa prática de criar e executar testes.
+
+## Pontos de melhoria 
+
+Durante a implementação, enfrentei alguns dilemas, especialmente em relação a UI do projeto e acredito que o principal motivo foi por não estar tão habituada com UIKit. 
+
+Obtive tanto as questões já pontuadas, quanto uma dificuldade em manter um código consistente e padrão. Optei por refatorar ao fim do projeto e essa não foi uma boa decisão. O projeto parece simples e eu me enganei nesse ponto. Por isso, uma parte do código começou a ser refatorada enquanto as outras ainda precisam receber esse cuidado. 
+
+#### Button 
+
+Não consegui replicar o padrão de alguns botões conforme o protótipo, devido a dificuldades no posicionamento correto do símbolo.
+
+###### Melhorias necessárias nos botões:
+
+* IntroView: signUpButton
+* RegisterView: nextButton
+* PasswordView: nextButton
+* TransferDetailsView: shareButton
+
+#### TableView no BankStatement 
+Há um espaçamento extra na altura da TableView na tela de BankStatement, cujo motivo não consegui identificar..  
  
- > Para participar, basta criar um fork deste repositório e quando finalizar o desenvolvimento, abrir um merge request que iremos avaliar.
+#### SegmentedControl 
+Outra melhoria envolve a adição de um SegmentedControl na tela de BankStatement, com opções de filtro entre "Tudo", "Entrada", "Saída" e "Futuro". Como não tive tempo para implementar essa funcionalidade, ela foi deixada de lado, considerando que sua presença seria puramente visual, sem agregar valor significativo ao projeto.
 
-O desafio consiste em implementar dois fluxos simples de tela, sendo um de autenticação e um de lista + detalhes.
+#### Tela de loading
+Dentro das prioridades do projeto, não coube dentro do escopo de tempo criar o placeholder de loading pras telas de BankStatement e TransferDetails. 
 
-O layout pode ser acessado [aqui](https://www.figma.com/file/mfScPv5hxIqg25obhaHNNB/SR?type=design&node-id=0%3A1&mode=dev&t=aqdh9RprKrYpateD-1)
+#### Atualização do token
+Apesar de ser um requisito do projeto, não foi implementado um método que atualizasse o valor do token após 1 minuto. Estudei previamente o tópico e sei deve ser utilizado o OAuth.
 
-## Requisitos
-- View Code
-- Não utilizar libs externas
-- Teste unitário
+Por fim, pode ser que eu não tenha me atentado a algum outro ponto, mas acredito que esses tenham sido os principais. 
 
-### Aqui iremos avaliar:
-- Atenção aos casos de uso
-- Organização do projeto
-- Organização de código
-- Boas práticas de desenvolvimento
-- Definição da arquitetura e utilização de Design Patterns
-- Aplicação dos conceitos de SOLID
-- Conhecimento dos recursos nativos para estruturação de UI, acesso a dados (local e remoto) e concorrência
+## Considerações finais 
 
-### Bonus (opcional)
-- SwiftUI
-- XCUITest
-- Arquitetura modular
-- Documentação
-
-## Casos de uso
-### Login
-- No passo de CPF, habilitar o botão apenas se digitar um CPF válido
-- No passo de senha, habilitar o botão apenas se a senha tiver 6 dígitos
-
-No passo de senha, ao tocar no botão "Próximo", é preciso fazer a request:
-
-```
-POST https://api.challenge.stage.cora.com.br/challenge/auth
--- header 'apikey: {{API_KEY}}'
-{
-  "cpf": "{{CPF}}",
-  "password": "{{SENHA}}"
-}
-```
-
-Caso os dados estejam corretos, a request irá retornar:
-
-```
-200 https://api.challenge.stage.cora.com.br/challenge/auth
-{
-    "token": "{{TOKEN}}"
-}
-```
-> Será necessário armazenar o token recebido para ser utilizado depois
-
-Caso os dados estejam incorretos, o retorno será:
-
-```
-401 https://api.challenge.stage.cora.com.br/challenge/auth
-```
-
-### Token
-O Token possui uma validade de 1 minuto. Então a cada 1 minuto é necessário fazer a request de autenticação novamente, mas dessa vez enviando o token antigo:
-> Importante garantir uma boa gestão de concorrência para evitar que outra request seja feita enquanto o token estiver sendo atualizado.
-
-```
-POST https://api.challenge.stage.cora.com.br/challenge/auth
--- header 'apikey: {{API_KEY}}'
-{
-  "token": "{{TOKEN}}"
-}
-```
-
-Caso o token seja validado corretamente, a request irá retornar um novo token:
-
-```
-200 https://api.challenge.stage.cora.com.br/challenge/auth
-{
-    "token": "{{TOKEN}}"
-}
-```
-
-Caso o token não seja validado, o retorno será:
-
-```
-401 https://api.challenge.stage.cora.com.br/challenge/auth
-```
-
-### Lista
-- Deverá exibir um placeholder enquanto a request estiver sendo feita
-- Deverá implementar um *pull to refresh*
-
-Pra trazer os dados da lista, será necessário fazer a request:
-
-```
-GET https://api.challenge.stage.cora.com.br/challenge/list
--- header 'apikey: {{API_KEY}}'
--- header 'token: {{TOKEN}}'
-```
-Caso seja um token válido, a request irá retornar:
-
-```
-200 https://api.challenge.stage.cora.com.br/challenge/list
-{
-  "results": [
-    {
-      "items": [
-        {
-          "id": "abc123def456ghi789",
-          "description": "Compra de produtos eletrônicos",
-          "label": "Compra aprovada",
-          "entry": "DEBIT",
-          "amount": 150000,
-          "name": "João da Silva",
-          "dateEvent": "2024-02-01T08:15:17Z",
-          "status": "COMPLETED"
-        }
-      ],
-      "date": "2024-02-01"
-    }
-  ],
-  "itemsTotal": 1
-}
-```
-Caso o token não seja válido, o retorno será: 
-
-```
-401 https://api.challenge.stage.cora.com.br/challenge/list
-```
-
-### Detalhes
-- Deverá exibir um placeholder enquanto a request estiver sendo feita
-
-Pra trazer os detalhes de um item, será necessário fazer a request:
-
-```
-GET https://api.challenge.stage.cora.com.br/challenge/details/:id
--- header 'apikey: {{API_KEY}}'
--- header 'token: {{TOKEN}}'
-```
-
-Caso seja um token válido, a request irá retornar:
-
-```
-200 https://api.challenge.stage.cora.com.br/challenge/details/:id
-{
-  "description": "Pagamento por serviços prestados",
-  "label": "Pagamento recebido",
-  "amount": 150000,
-  "counterPartyName": "Empresa ABC LTDA",
-  "id": "abcdef12-3456-7890-abcd-ef1234567890",
-  "dateEvent": "2024-02-05T14:30:45Z",
-  "recipient": {
-    "bankName": "Banco XYZ",
-    "bankNumber": "001",
-    "documentNumber": "11223344000155",
-    "documentType": "CNPJ",
-    "accountNumberDigit": "9",
-    "agencyNumberDigit": "7",
-    "agencyNumber": "1234",
-    "name": "Empresa ABC LTDA",
-    "accountNumber": "987654"
-  },
-  "sender": {
-    "bankName": "Banco ABC",
-    "bankNumber": "002",
-    "documentNumber": "99887766000112",
-    "documentType": "CNPJ",
-    "accountNumberDigit": "3",
-    "agencyNumberDigit": "1",
-    "agencyNumber": "5678",
-    "name": "Empresa XYZ LTDA",
-    "accountNumber": "543210"
-  },
-  "status": "COMPLETED"
-}
-```
-
-Caso o token não seja válido, o retorno será: 
-
-```
-401 https://api.challenge.stage.cora.com.br/challenge/details/:id
-```
+Primeiro de tudo, gostaria de agradecer pela oportunidade de participar do desafio-iOS. 
+Pelas escolhas que definiram as características do projeto, acredito que o nome "desafio" fez jus a ele. Foi mesmo um desafio, estou contente pela jornada até aqui, mas sei que há vários pontos que devem ser trabalhados para que o projeto esteja ao nível daquilo que eu gostaria de entregar. 
