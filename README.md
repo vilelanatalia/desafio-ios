@@ -5,9 +5,9 @@
 
 Este é o projeto de conclusão do desafio-iOS do Banco Cora, cujo objetivo foi simular o fluxo de acesso de um usuário ao app do banco.
 
-Antes de desenvolvê-lo, me guiei a partir das seguintes informações, buscando entregar um projeto com a cara da Cora ser assertiva nas tomadas de decisão que permeiam sua implementação.
+Antes de desenvolvê-lo, buscando entregar um projeto que seguisse as decisões técnicas de implementação do ecossistema da Cora, me guiei a partir das seguintes informações:
 
-- Cora App na Appstore: iOS Deployment Target = 13.0 
+- Cora na Appstore: iOS Deployment Target = 13.0 
 - CoraBank GitHub Repository: iOS Community
 
 A partir do Deployment Target, optei por trabalhar com UIKit por entender que geraria uma compatibilidade de implementação com o aplicativo original. 
@@ -53,7 +53,7 @@ Não consegui replicar o padrão de alguns botões conforme o protótipo, devido
 * TransferDetailsView: shareButton
 
 #### TableView no BankStatement 
-Há um espaçamento extra na altura da TableView na tela de BankStatement, cujo motivo não consegui identificar..  
+Há um espaçamento extra na altura da TableView na tela de BankStatement, cujo motivo não consegui identificar.
  
 #### SegmentedControl 
 Outra melhoria envolve a adição de um SegmentedControl na tela de BankStatement, com opções de filtro entre "Tudo", "Entrada", "Saída" e "Futuro". Como não tive tempo para implementar essa funcionalidade, ela foi deixada de lado, considerando que sua presença seria puramente visual, sem agregar valor significativo ao projeto.
