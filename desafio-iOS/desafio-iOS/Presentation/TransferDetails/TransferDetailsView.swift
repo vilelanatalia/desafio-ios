@@ -14,27 +14,6 @@ class TransferDetailsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: Components
-
-    func regularLabel(text: String? = nil, textColor: UIColor) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = Fonts.xsRegular.font
-        label.textColor = textColor
-        label.text = text
-        return label
-    }
-
-    func boldLabel(text: String? = nil, textColor: UIColor) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = Fonts.sHeavy.font
-        label.textColor = textColor
-        label.text = text
-
-        return label
-    }
-
     // MARK: title view stackview
 
     func regularStackView(arrangedSubviews: [UIView], spacing: CGFloat) -> UIStackView {
@@ -52,7 +31,7 @@ class TransferDetailsView: UIView {
         stackView.spacing = spacing
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .fill // Dis
+        stackView.distribution = .fill
         return stackView
     }
 
@@ -66,56 +45,67 @@ class TransferDetailsView: UIView {
 
         return imageView
     }()
+    lazy var titleLabel: UILabel = createLabel(for: .heavyBody)
 
     lazy var titleStackView: UIStackView = horizontalStackView(
-        arrangedSubviews: [iconImageView,
-                           boldLabel(textColor: Colors.grayscale5!)], spacing: Paddings.nano
+        arrangedSubviews: [iconImageView, titleLabel],
+        spacing: Paddings.nano
     )
+
+    lazy var valueTitleLabel: UILabel = createLabel(for: .regularBody, text: constants.valueTitle)
+    lazy var valueLabel: UILabel = createLabel(for: .heavyBody)
 
     lazy var valueStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(text: constants.valueTitle, textColor: Colors.grayscale5!),
-                           boldLabel(textColor: Colors.grayscale5!)],
-        spacing: Paddings.quarck
-    )
+        arrangedSubviews: [valueTitleLabel, valueLabel],
+        spacing: Paddings.quarck)
+    lazy var dateTitleLabel: UILabel = createLabel(for: .regularBody, text: constants.dateTitle)
+    lazy var dateLabel: UILabel = createLabel(for: .heavyBody)
 
     lazy var dateStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(text: constants.dateTitle, textColor: Colors.grayscale5!),
-                           boldLabel(textColor: Colors.grayscale5!)],
-        spacing: Paddings.quarck
-    )
+        arrangedSubviews: [dateTitleLabel, dateLabel],
+        spacing: Paddings.quarck)
 
-    lazy var senderStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(text: constants.senderTitle, textColor: Colors.grayscale5!),
-                           boldLabel(textColor: Colors.grayscale5!),
-                           senderAccountInformationStackView],
-        spacing: Paddings.quarck
-    )
-    lazy var recipientStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(text: constants.recipientTitle, textColor: Colors.grayscale5!),
-                           boldLabel(textColor: Colors.grayscale5!),
-                           recipientAccountInformationStackView],
-        spacing: Paddings.quarck
-    )
+    // MARK: Sender
 
-    lazy var recipientAccountInformationStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(textColor: Colors.grayscale2!),
-                           regularLabel(textColor: Colors.grayscale2!),
-                           regularLabel(textColor: Colors.grayscale2!)],
-        spacing: Paddings.none
-    )
+    lazy var senderTitleLabel: UILabel = createLabel(for: .regularBody, text: constants.senderTitle)
+    lazy var senderNameLabel: UILabel = createLabel(for: .heavyBody)
+
+    lazy var senderRegisterLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var senderBankLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var senderAccountLabel: UILabel = createLabel(for: .regularSupport)
 
     lazy var senderAccountInformationStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(textColor: Colors.grayscale2!),
-                           regularLabel(textColor: Colors.grayscale2!),
-                           regularLabel(textColor: Colors.grayscale2!)],
-        spacing: Paddings.none
-    )
+        arrangedSubviews: [senderRegisterLabel, senderBankLabel, senderAccountLabel],
+        spacing: Paddings.none)
 
+    lazy var senderStackView: UIStackView = regularStackView(
+        arrangedSubviews: [senderTitleLabel, senderNameLabel,
+                           senderAccountInformationStackView],
+        spacing: Paddings.quarck)
+
+    // MARK: Recipient
+
+    lazy var recipientTitleLabel: UILabel = createLabel(for: .regularBody, text: constants.senderTitle)
+    lazy var recipientNameLabel: UILabel = createLabel(for: .heavyBody)
+
+    lazy var recipientRegisterLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var recipientBankLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var recipientAccountLabel: UILabel = createLabel(for: .regularSupport)
+
+    lazy var recipientAccountInformationStackView: UIStackView = regularStackView(
+        arrangedSubviews: [recipientRegisterLabel, recipientBankLabel, recipientAccountLabel],
+        spacing: Paddings.none)
+
+    lazy var recipientStackView: UIStackView = regularStackView(
+        arrangedSubviews: [recipientTitleLabel, recipientNameLabel,
+                           recipientAccountInformationStackView],
+        spacing: Paddings.quarck)
+
+    private lazy var descriptionTitle: UILabel = createLabel(for: .regularBody, text: constants.descriptionTitle)
+    private lazy var descriptionLabel: UILabel = createLabel(for: .regularFootnote, text: constants.descriptionText)
     lazy var descriptionStackView: UIStackView = regularStackView(
-        arrangedSubviews: [regularLabel(text: constants.descriptionTitle, textColor: Colors.grayscale5!),
-                           descriptionLabel],
-        spacing: Paddings.quarck
-    )
+        arrangedSubviews: [descriptionTitle, descriptionLabel],
+        spacing: Paddings.quarck)
 
     private lazy var shareButton: UIButton = {
         let button = UIButton()
@@ -135,15 +125,6 @@ class TransferDetailsView: UIView {
         return button
     }()
 
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = constants.descriptionText
-        label.font = Fonts.xsRegular.font
-        label.textColor = Colors.grayscale2
-        label.numberOfLines = 0
-        return label
-    }()
 
     private lazy var mainStack: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleStackView, valueStackView, dateStackView, senderStackView, recipientStackView, descriptionStackView, shareButton])
@@ -171,7 +152,7 @@ extension TransferDetailsView: ViewCode {
             mainStack.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
 
             shareButton.widthAnchor.constraint(equalTo: mainStack.widthAnchor),
-            shareButton.heightAnchor.constraint(equalToConstant: Paddings.lg),
+            shareButton.heightAnchor.constraint(equalToConstant: Paddings.lg)
         ])
     }
 

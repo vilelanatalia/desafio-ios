@@ -18,19 +18,9 @@ class PasswordView: UIView {
 
         return appearance
     }
+    // MARK: - UI Components
 
-    private lazy var textStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [passwordTextField, visibilityButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private lazy var passwordTitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
+    private lazy var passwordTitleLabel: UILabel = createLabel(for: .heavyTitle, text: constants.passwordTitleText)
 
     private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton()
@@ -58,10 +48,44 @@ class PasswordView: UIView {
 
     }()
 
+    // MARK: Stack Views
+
+    private lazy var textStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [passwordTextField, visibilityButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    private lazy var headerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [passwordTitleLabel, textStackView])
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 32
+
+        return stackView
+    }()
+
+    lazy var passwordStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [headerStackView, forgotPasswordButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 48
+
+        return stackView
+    }()
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [passwordStackView, nextButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
+
+        return stackView
+    }()
+
     @objc private func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
 
-        // Alterna o ícone do botão
         let buttonImage = passwordTextField.isSecureTextEntry ? "eye" : "eye.slash"
         visibilityButton.setImage(UIImage(systemName: buttonImage), for: .normal)
     }
@@ -82,34 +106,26 @@ class PasswordView: UIView {
 
 extension PasswordView: ViewCode {
     func addSubviews() {
-        addSubview(passwordTitleLabel)
-        addSubview(textStackView)
-        addSubview(forgotPasswordButton)
-        addSubview(nextButton)
+        addSubview(mainStackView)
+
     }
 
     func setupConstraints() {
         let safeGuide = safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            // Constraints dos elementos dentro da stack
-            passwordTitleLabel.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xxs),
-            passwordTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            passwordTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
 
-            textStackView.topAnchor.constraint(equalTo: passwordTitleLabel.bottomAnchor, constant: Paddings.xs),
-            textStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            textStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
+            mainStackView.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xs),
+            mainStackView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor, constant: Paddings.xxs),
+            mainStackView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -Paddings.xxs),
+            mainStackView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
 
-            forgotPasswordButton.topAnchor.constraint(equalTo: textStackView.bottomAnchor, constant: Paddings.md),
-            forgotPasswordButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            forgotPasswordButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
+            textStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
 
-            // Next button constraints
-            nextButton.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
-            nextButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            nextButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
-            nextButton.heightAnchor.constraint(equalToConstant: 50),
+
+            nextButton.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: Paddings.lg)
+
         ])
     }
 
@@ -127,11 +143,6 @@ extension PasswordView: ViewCode {
         textStackView.axis = .horizontal
         textStackView.alignment = .leading
         textStackView.distribution = .fillProportionally
-
-        // MARK: passwordTitleLabel style
-
-        passwordTitleLabel.text = constants.passwordTitleText
-        passwordTitleLabel.font = Fonts.mHeavy.font
 
         // MARK: forgotPasswordButton style
 

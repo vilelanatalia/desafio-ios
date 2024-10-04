@@ -2,6 +2,8 @@ import UIKit
 
 class IntroView: UIView {
     let constants = IntroViewConstants()
+
+    // TODO: Update image position
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "image"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -9,27 +11,37 @@ class IntroView: UIView {
         return imageView
     }()
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = constants.titleText
+    private lazy var heavyTitleLabel: UILabel = createLabel(for: .largeHeavyTitle, text: constants.titleText)
+    private lazy var regularTitleLabel: UILabel = createLabel(for: .largeRegularTitle, text: constants.susbtitleText)
+    private lazy var descriptionLabel: UILabel = createLabel(for: .blankRegularSubtitle, text: constants.descriptionText)
 
-        return label
+    private lazy var titleStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [heavyTitleLabel, regularTitleLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = Paddings.quarck
+
+        return stackView
     }()
 
-    private lazy var subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = constants.susbtitleText
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [textStackView, buttonStackView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
 
-        return label
+        return stackView
     }()
+    private lazy var textStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleStackView, descriptionLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
 
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = constants.descriptionText
-        return label
+        stackView.spacing = Paddings.xxxs
+        return stackView
     }()
 
     private lazy var signUpButton: UIButton = {
@@ -45,13 +57,6 @@ class IntroView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(constants.loginTextButton, for: .normal)
         return button
-    }()
-
-    private lazy var titleStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        return stackView
     }()
 
     private lazy var buttonStackView: UIStackView = {
@@ -75,53 +80,37 @@ class IntroView: UIView {
 extension IntroView: ViewCode {
     func addSubviews() {
         addSubview(imageView)
-        addSubview(titleStackView)
-        addSubview(descriptionLabel)
-        addSubview(buttonStackView)
-    }
+        addSubview(mainStackView)
 
+    }
+    
     func setupConstraints() {
+        let safeGuide = safeAreaLayoutGuide
+
         NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Paddings.xxxs),
+            mainStackView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor, constant: Paddings.xxs),
+            mainStackView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -Paddings.xxs),
+            mainStackView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
+
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 360),
             imageView.heightAnchor.constraint(equalToConstant: 360),
 
-            titleStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Paddings.xxxs),
-            titleStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxxs),
-            titleStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxxs),
-
-            descriptionLabel.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: Paddings.xs),
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxxs),
-            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxxs),
-
-            buttonStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxxs),
-            buttonStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxxs),
-            buttonStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Paddings.xxxs),
+            buttonStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
 
             signUpButton.heightAnchor.constraint(equalToConstant: 64),
-            loginButton.heightAnchor.constraint(equalToConstant: 64),
+            loginButton.heightAnchor.constraint(equalToConstant: 64)
         ])
     }
 
     func setupStyle() {
         backgroundColor = Colors.brandPrimary
 
-        // MARK: titleLabel style
-
-        titleLabel.font = Fonts.lHeavy.font
-        titleLabel.textColor = Colors.white
-
-        // MARK: subtitleLabel style
-
-        subtitleLabel.font = Fonts.lRegular.font
-        subtitleLabel.textColor = Colors.white
 
         // MARK: descriptionLabel style
 
-        descriptionLabel.font = Fonts.mRegular.font
-        descriptionLabel.textColor = Colors.white
         descriptionLabel.numberOfLines = 0
 
         // MARK: signUpButton style
@@ -140,12 +129,6 @@ extension IntroView: ViewCode {
         loginButton.titleLabel?.font = Fonts.xsRegular.font
         loginButton.backgroundColor = Colors.brandPrimary
         loginButton.layer.cornerRadius = Paddings.xxxs
-
-        // MARK: titleStackView style
-
-        titleStackView.axis = .vertical
-        titleStackView.alignment = .leading
-        titleStackView.spacing = Paddings.nano
 
         // MARK: buttonStackView style
 

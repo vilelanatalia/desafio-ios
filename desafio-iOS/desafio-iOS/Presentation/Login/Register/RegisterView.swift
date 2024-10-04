@@ -11,20 +11,11 @@ class RegisterView: UIView {
     }
 
     // MARK: - UI Components
+    private lazy var welcomeLabel: UILabel = createLabel(for: .regularSubtitle, text: constants.welcomeText)
 
-    private lazy var welcomeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = constants.welcomeText
-        return label
-    }()
+    private lazy var registerLabel: UILabel = createLabel(for: .heavyTitle, text: constants.registerText)
 
-    private lazy var registerLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
+    // TODO: - TextField, refactor
     var registerTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +23,7 @@ class RegisterView: UIView {
 
         return textField
     }()
-
+    // TODO: - Button, refactor
     lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +31,37 @@ class RegisterView: UIView {
         button.isEnabled = false
 
         return button
+    }()
+
+    // MARK: - Stack Views
+    private lazy var headerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [welcomeLabel, registerLabel])
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 8
+
+        return stackView
+    }()
+
+    private lazy var registerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [headerStackView, registerTextField])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 32
+
+        return stackView
+    }()
+
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [registerStackView, nextButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
+
+        return stackView
     }()
 
     // MARK: - Init
@@ -58,38 +80,24 @@ class RegisterView: UIView {
 
 extension RegisterView: ViewCode {
     func addSubviews() {
-        addSubview(welcomeLabel)
-        addSubview(registerLabel)
-        addSubview(registerTextField)
-        addSubview(nextButton)
+        addSubview(mainStackView)
+
     }
 
     func setupConstraints() {
         let safeGuide = safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            // MARK: welcomeLabel constraints
+            mainStackView.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xs),
+            mainStackView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor, constant: Paddings.xxs),
+            mainStackView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -Paddings.xxs),
+            mainStackView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
 
-            welcomeLabel.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xxs),
-            welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
 
-            // MARK: registerLabel constraints
 
-            registerLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: Paddings.nano),
-            registerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-
-            // MARK: registerTextField constraints
-
-            registerTextField.topAnchor.constraint(equalTo: registerLabel.bottomAnchor, constant: Paddings.xs),
-            registerTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            registerTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
-
-            // MARK: nextButton constraints
-
-            nextButton.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
-            nextButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            nextButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
-            nextButton.heightAnchor.constraint(equalToConstant: 50),
+          // MARK: nextButton constraints
+            nextButton.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: Paddings.lg)
 
         ])
     }
@@ -103,15 +111,6 @@ extension RegisterView: ViewCode {
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.grayscale2!]
         navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.grayscale2!]
 
-        // MARK: welcomeLabel style
-
-        welcomeLabel.font = Fonts.sRegular.font
-        welcomeLabel.textColor = Colors.grayscale3
-
-        // MARK: registerLabel style
-
-        registerLabel.text = constants.registerText
-        registerLabel.font = Fonts.mHeavy.font
 
         // MARK: registerTextField style
 

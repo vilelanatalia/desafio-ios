@@ -59,6 +59,7 @@
 		76E2CFEA2CA252D2002AA52C /* TransferDetailsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E2CFE92CA252C5002AA52C /* TransferDetailsRepository.swift */; };
 		76E2CFEC2CA25509002AA52C /* TransferDetailsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E2CFEB2CA25509002AA52C /* TransferDetailsResponseModel.swift */; };
 		76E2CFEE2CA4C59D002AA52C /* TransferDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E2CFED2CA4C59D002AA52C /* TransferDetailsUseCase.swift */; };
+		76EF2AC52CACBC7E0009C38A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF2AC42CACBC7E0009C38A /* Label.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,7 @@
 		76E2CFE92CA252C5002AA52C /* TransferDetailsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsRepository.swift; sourceTree = "<group>"; };
 		76E2CFEB2CA25509002AA52C /* TransferDetailsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsResponseModel.swift; sourceTree = "<group>"; };
 		76E2CFED2CA4C59D002AA52C /* TransferDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsUseCase.swift; sourceTree = "<group>"; };
+		76EF2AC42CACBC7E0009C38A /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 		7658501D2C93AE1F007F2CDD /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				76EF2AC32CACBC670009C38A /* Components */,
 				7658501E2C93AE2E007F2CDD /* Colors.swift */,
 				76E2CFDB2CA04828002AA52C /* Fonts.swift */,
 				76E2CFE12CA18FA6002AA52C /* Paddings.swift */,
@@ -416,6 +419,14 @@
 				76E2CFDF2CA18B13002AA52C /* RegisterViewConstants.swift */,
 			);
 			path = Register;
+			sourceTree = "<group>";
+		};
+		76EF2AC32CACBC670009C38A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				76EF2AC42CACBC7E0009C38A /* Label.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,6 +594,7 @@
 				765850172C930F08007F2CDD /* IntroView.swift in Sources */,
 				76E2CFEE2CA4C59D002AA52C /* TransferDetailsUseCase.swift in Sources */,
 				76BC98142C9A15DB00D44DB1 /* AuthRepository.swift in Sources */,
+				76EF2AC52CACBC7E0009C38A /* Label.swift in Sources */,
 				764D57332C984E0900CE10F0 /* AuthRequestModel.swift in Sources */,
 				76E2CFDA2C9F9641002AA52C /* BankStatementResponseModel.swift in Sources */,
 				76584FE72C930D1C007F2CDD /* SceneDelegate.swift in Sources */,

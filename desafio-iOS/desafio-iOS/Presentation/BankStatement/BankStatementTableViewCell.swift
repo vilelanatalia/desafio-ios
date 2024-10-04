@@ -1,8 +1,18 @@
 import UIKit
 
 class BankStatementTableViewCell: UITableViewCell {
+
     private lazy var cellStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [transactionIconImageView, textStackView, dateEventLabel])
+        let stackView = UIStackView(arrangedSubviews: [transactionStackView, dateEventLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
+        
+        return stackView
+    }()
+    lazy var transactionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [transactionIconImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .leading
@@ -10,7 +20,6 @@ class BankStatementTableViewCell: UITableViewCell {
 
         return stackView
     }()
-
     lazy var transactionIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .black
@@ -20,7 +29,7 @@ class BankStatementTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var textStackView: UIStackView = {
+    private lazy var informationStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [amountLabel, descriptionLabel, nameLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -28,34 +37,10 @@ class BankStatementTableViewCell: UITableViewCell {
         stackView.distribution = .equalSpacing
         return stackView
     }()
-
-    lazy var amountLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    lazy var dateEventLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
+    lazy var amountLabel: UILabel = createLabel(for: .heavyBody)
+    lazy var descriptionLabel: UILabel = createLabel(for: .regularBody)
+    lazy var nameLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var dateEventLabel: UILabel = createLabel(for: .regularFootnote)
 
     // MARK: - Initializer
 
@@ -74,25 +59,6 @@ class BankStatementTableViewCell: UITableViewCell {
 
 extension BankStatementTableViewCell: ViewCode {
     func setupStyle() {
-        // MARK: amountLabel style
-
-        amountLabel.font = Fonts.sHeavy.font
-        amountLabel.textColor = Colors.labelPrimary
-
-        // MARK: descriptionLabel style
-
-        descriptionLabel.font = Fonts.xsRegular.font
-        descriptionLabel.textColor = Colors.labelPrimary
-
-        // MARK: nameLabel style
-
-        nameLabel.font = Fonts.xsRegular.font
-        nameLabel.textColor = Colors.grayscale2
-
-        // MARK: dateEventLabel style
-
-        dateEventLabel.font = Fonts.xxsRegular.font
-        dateEventLabel.textColor = Colors.grayscale2
     }
 
     func addSubviews() {
@@ -100,18 +66,18 @@ extension BankStatementTableViewCell: ViewCode {
     }
 
     func setupConstraints() {
+        let safeGuide = safeAreaLayoutGuide
+
+
         NSLayoutConstraint.activate([
-            cellStackView.topAnchor.constraint(equalTo: topAnchor, constant: Paddings.xxs),
-            cellStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Paddings.xxs),
-            cellStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Paddings.xxs),
-            cellStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Paddings.xxs),
+            cellStackView.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xxs),
+            cellStackView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor, constant: Paddings.xxs),
+            cellStackView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -Paddings.xxs),
+            cellStackView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
 
-            transactionIconImageView.leadingAnchor.constraint(equalTo: cellStackView.leadingAnchor),
+            transactionStackView.widthAnchor.constraint(equalTo: cellStackView.widthAnchor, multiplier: 0.8),
 
-            textStackView.centerYAnchor.constraint(equalTo: cellStackView.centerYAnchor),
-
-            dateEventLabel.trailingAnchor.constraint(equalTo: cellStackView.trailingAnchor),
-            dateEventLabel.centerYAnchor.constraint(equalTo: cellStackView.centerYAnchor),
+            dateEventLabel.centerYAnchor.constraint(equalTo: cellStackView.centerYAnchor)
 
         ])
     }
