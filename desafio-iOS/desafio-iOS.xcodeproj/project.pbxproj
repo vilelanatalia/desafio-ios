@@ -60,6 +60,7 @@
 		76E2CFEC2CA25509002AA52C /* TransferDetailsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E2CFEB2CA25509002AA52C /* TransferDetailsResponseModel.swift */; };
 		76E2CFEE2CA4C59D002AA52C /* TransferDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E2CFED2CA4C59D002AA52C /* TransferDetailsUseCase.swift */; };
 		76EF2AC52CACBC7E0009C38A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF2AC42CACBC7E0009C38A /* Label.swift */; };
+		76EF2ACB2CAF76DB0009C38A /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF2ACA2CAF76D50009C38A /* StackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,7 @@
 		76E2CFEB2CA25509002AA52C /* TransferDetailsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsResponseModel.swift; sourceTree = "<group>"; };
 		76E2CFED2CA4C59D002AA52C /* TransferDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsUseCase.swift; sourceTree = "<group>"; };
 		76EF2AC42CACBC7E0009C38A /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		76EF2ACA2CAF76D50009C38A /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				76EF2AC42CACBC7E0009C38A /* Label.swift */,
+				76EF2ACA2CAF76D50009C38A /* StackView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				765E4D722CA6D70300A40853 /* Amount.swift in Sources */,
 				76BC981B2C9AE76E00D44DB1 /* Environment.swift in Sources */,
 				76BC98052C999B0600D44DB1 /* PasswordViewModel.swift in Sources */,
+				76EF2ACB2CAF76DB0009C38A /* StackView.swift in Sources */,
 				76DEF2122C9CB2D7007A2EC0 /* BankStatementViewModel.swift in Sources */,
 				76E2CFD02C9F91A4002AA52C /* BankStatementRepository.swift in Sources */,
 				76E2CFCA2C9E37DA002AA52C /* TransferDetailViewModel.swift in Sources */,

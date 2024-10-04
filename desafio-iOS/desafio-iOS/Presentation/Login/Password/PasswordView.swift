@@ -3,6 +3,8 @@ import UIKit
 class PasswordView: UIView {
     let constants = PasswordConstants()
 
+    // MARK: - Init
+
     init() {
         super.init(frame: .zero)
         setup()
@@ -18,19 +20,31 @@ class PasswordView: UIView {
 
         return appearance
     }
-    // MARK: - UI Components
 
+    // MARK: Private properties
+    /// Label
     private lazy var passwordTitleLabel: UILabel = createLabel(for: .heavyTitle, text: constants.passwordTitleText)
 
-    private lazy var forgotPasswordButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentHorizontalAlignment = .left
+    /// StackView
+    private lazy var textStackView: UIStackView = createStackView(for: .horizontal,
+                                                                  arrangedSubviews: [passwordTextField, visibilityButton])
 
-        return button
-    }()
+    private lazy var headerStackView: UIStackView = createStackView(for: .vertical,
+                                                                    arrangedSubviews: [passwordTitleLabel, textStackView],
+                                                                    spacing: Paddings.xs)
 
-    var passwordTextField: UITextField = {
+    private lazy var mainStackView: UIStackView = createStackView(for: .main,
+                                                                  arrangedSubviews: [passwordStackView, nextButton])
+
+    lazy var passwordStackView: UIStackView = createStackView(for: .vertical,
+                                                              arrangedSubviews: [headerStackView, forgotPasswordButton],
+                                                              spacing: Paddings.md)
+
+
+    // MARK: Public Properties
+
+    /// Textfield
+    lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.isSecureTextEntry = true
@@ -39,56 +53,22 @@ class PasswordView: UIView {
         return textField
     }()
 
-    private lazy var visibilityButton: UIButton = {
+    /// Button
+    lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentHorizontalAlignment = .left
+
+        return button
+    }()
+
+    lazy var visibilityButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
 
         return button
-
     }()
-
-    // MARK: Stack Views
-
-    private lazy var textStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [passwordTextField, visibilityButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    private lazy var headerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [passwordTitleLabel, textStackView])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 32
-
-        return stackView
-    }()
-
-    lazy var passwordStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [headerStackView, forgotPasswordButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 48
-
-        return stackView
-    }()
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [passwordStackView, nextButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-
-        return stackView
-    }()
-
-    @objc private func togglePasswordVisibility() {
-        passwordTextField.isSecureTextEntry.toggle()
-
-        let buttonImage = passwordTextField.isSecureTextEntry ? "eye" : "eye.slash"
-        visibilityButton.setImage(UIImage(systemName: buttonImage), for: .normal)
-    }
 
     lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
@@ -98,6 +78,12 @@ class PasswordView: UIView {
         return button
     }()
 
+    @objc private func togglePasswordVisibility() {
+        passwordTextField.isSecureTextEntry.toggle()
+
+        let buttonImage = passwordTextField.isSecureTextEntry ? "eye" : "eye.slash"
+        visibilityButton.setImage(UIImage(systemName: buttonImage), for: .normal)
+    }
     func updateButton(isEnabled: Bool) {
         nextButton.isEnabled = isEnabled
         nextButton.backgroundColor = isEnabled ? Colors.brandPrimary : Colors.grayscale3
@@ -122,7 +108,6 @@ extension PasswordView: ViewCode {
 
             textStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
 
-
             nextButton.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             nextButton.heightAnchor.constraint(equalToConstant: Paddings.lg)
 
@@ -140,9 +125,9 @@ extension PasswordView: ViewCode {
 
         // MARK: textStackView style
 
-        textStackView.axis = .horizontal
-        textStackView.alignment = .leading
-        textStackView.distribution = .fillProportionally
+//        textStackView.axis = .horizontal
+//        textStackView.alignment = .leading
+//        textStackView.distribution = .fillProportionally
 
         // MARK: forgotPasswordButton style
 

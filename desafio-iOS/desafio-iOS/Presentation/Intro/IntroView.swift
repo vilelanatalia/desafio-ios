@@ -3,6 +3,18 @@ import UIKit
 class IntroView: UIView {
     let constants = IntroViewConstants()
 
+    // MARK: - Init
+
+    init() {
+        super.init(frame: .zero)
+        setup()
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // TODO: Update image position
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "image"))
@@ -11,40 +23,31 @@ class IntroView: UIView {
         return imageView
     }()
 
+    // MARK: Private properties
+    /// Label
     private lazy var heavyTitleLabel: UILabel = createLabel(for: .largeHeavyTitle, text: constants.titleText)
     private lazy var regularTitleLabel: UILabel = createLabel(for: .largeRegularTitle, text: constants.susbtitleText)
     private lazy var descriptionLabel: UILabel = createLabel(for: .blankRegularSubtitle, text: constants.descriptionText)
 
-    private lazy var titleStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [heavyTitleLabel, regularTitleLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = Paddings.quarck
+    /// StackView
+    private lazy var titleStackView: UIStackView = createStackView(for: .vertical,
+                                                                   arrangedSubviews: [heavyTitleLabel, regularTitleLabel],
+                                                                   spacing: Paddings.quarck)
 
-        return stackView
-    }()
+    private lazy var textStackView: UIStackView = createStackView(for: .vertical,
+                                                                  arrangedSubviews: [titleStackView, descriptionLabel],
+                                                                  spacing: Paddings.xxxs)
 
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [textStackView, buttonStackView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
+    private lazy var buttonStackView: UIStackView = createStackView(for: .vertical,
+                                                                    arrangedSubviews: [signUpButton, loginButton],
+                                                                    spacing: Paddings.xxxs)
 
-        return stackView
-    }()
-    private lazy var textStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleStackView, descriptionLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
+    private lazy var mainStackView: UIStackView = createStackView(for: .main,
+                                                                  arrangedSubviews: [textStackView, buttonStackView])
 
-        stackView.spacing = Paddings.xxxs
-        return stackView
-    }()
+    // MARK: Public properties
 
-    private lazy var signUpButton: UIButton = {
+    lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(constants.signUpTextButton, for: .normal)
@@ -58,23 +61,6 @@ class IntroView: UIView {
         button.setTitle(constants.loginTextButton, for: .normal)
         return button
     }()
-
-    private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [signUpButton, loginButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        return stackView
-    }()
-
-    init() {
-        super.init(frame: .zero)
-        setup()
-    }
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 extension IntroView: ViewCode {
@@ -83,7 +69,6 @@ extension IntroView: ViewCode {
         addSubview(mainStackView)
 
     }
-    
     func setupConstraints() {
         let safeGuide = safeAreaLayoutGuide
 
@@ -108,13 +93,11 @@ extension IntroView: ViewCode {
     func setupStyle() {
         backgroundColor = Colors.brandPrimary
 
-
         // MARK: descriptionLabel style
 
         descriptionLabel.numberOfLines = 0
 
         // MARK: signUpButton style
-
         signUpButton.layer.cornerRadius = Paddings.xxxs
         signUpButton.setTitleColor(Colors.brandPrimary, for: .normal)
         signUpButton.titleLabel?.font = Fonts.sHeavy.font

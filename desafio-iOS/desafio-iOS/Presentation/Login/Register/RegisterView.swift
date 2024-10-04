@@ -4,16 +4,36 @@ class RegisterView: UIView {
     let viewModel: RegisterViewModelProtocol
     let constants = RegisterViewConstants()
 
-    // View standard configuration
+    // MARK: - Init
+
+    init(viewModel: RegisterViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+        setup()
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     var navigationBarAppearance: UINavigationBarAppearance {
         let appearance = UINavigationBarAppearance()
         return appearance
     }
 
-    // MARK: - UI Components
+    // MARK: Private properties
+    /// Label
     private lazy var welcomeLabel: UILabel = createLabel(for: .regularSubtitle, text: constants.welcomeText)
-
     private lazy var registerLabel: UILabel = createLabel(for: .heavyTitle, text: constants.registerText)
+
+    /// StackView
+    private lazy var headerStackView: UIStackView = createStackView(for: .vertical, arrangedSubviews: [welcomeLabel, registerLabel], spacing: Paddings.nano)
+    private lazy var registerStackView: UIStackView = createStackView(for: .vertical, arrangedSubviews: [headerStackView, registerTextField], spacing: Paddings.xs)
+    private lazy var mainStackView: UIStackView = createStackView(for: .main, arrangedSubviews: [registerStackView, nextButton])
+
+
+    //MARK: Public properties
 
     // TODO: - TextField, refactor
     var registerTextField: UITextField = {
@@ -32,50 +52,6 @@ class RegisterView: UIView {
 
         return button
     }()
-
-    // MARK: - Stack Views
-    private lazy var headerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [welcomeLabel, registerLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 8
-
-        return stackView
-    }()
-
-    private lazy var registerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [headerStackView, registerTextField])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 32
-
-        return stackView
-    }()
-
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [registerStackView, nextButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-
-        return stackView
-    }()
-
-    // MARK: - Init
-
-    init(viewModel: RegisterViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(frame: .zero)
-        setup()
-    }
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 extension RegisterView: ViewCode {
@@ -93,8 +69,6 @@ extension RegisterView: ViewCode {
             mainStackView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -Paddings.xxs),
             mainStackView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: -Paddings.xxs),
 
-
-
           // MARK: nextButton constraints
             nextButton.widthAnchor.constraint(equalTo: mainStackView.widthAnchor),
             nextButton.heightAnchor.constraint(equalToConstant: Paddings.lg)
@@ -110,7 +84,6 @@ extension RegisterView: ViewCode {
         navigationBarAppearance.backgroundColor = Colors.grayscale1!
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.grayscale2!]
         navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.grayscale2!]
-
 
         // MARK: registerTextField style
 

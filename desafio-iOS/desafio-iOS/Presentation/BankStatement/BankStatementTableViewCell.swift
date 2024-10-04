@@ -2,48 +2,7 @@ import UIKit
 
 class BankStatementTableViewCell: UITableViewCell {
 
-    private lazy var cellStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [transactionStackView, dateEventLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-        
-        return stackView
-    }()
-    lazy var transactionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [transactionIconImageView, informationStackView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.spacing = Paddings.xxxs
-
-        return stackView
-    }()
-    lazy var transactionIconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        return imageView
-    }()
-
-    private lazy var informationStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [amountLabel, descriptionLabel, nameLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
-    lazy var amountLabel: UILabel = createLabel(for: .heavyBody)
-    lazy var descriptionLabel: UILabel = createLabel(for: .regularBody)
-    lazy var nameLabel: UILabel = createLabel(for: .regularSupport)
-    lazy var dateEventLabel: UILabel = createLabel(for: .regularFootnote)
-
-    // MARK: - Initializer
-
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -53,9 +12,34 @@ class BankStatementTableViewCell: UITableViewCell {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
-// MARK: - Setup Methods
+    // MARK: Private properties
+    /// Label
+    lazy var amountLabel: UILabel = createLabel(for: .heavyBody)
+    lazy var descriptionLabel: UILabel = createLabel(for: .regularBody)
+    lazy var nameLabel: UILabel = createLabel(for: .regularSupport)
+    lazy var dateEventLabel: UILabel = createLabel(for: .regularFootnote)
+
+    /// StackView
+    private lazy var cellStackView: UIStackView = createStackView(for: .horizontalMain,
+                                                                  arrangedSubviews: [transactionStackView, dateEventLabel])
+    private lazy var transactionStackView: UIStackView = createStackView(for: .horizontal,
+                                                                         arrangedSubviews: [transactionIconImageView, informationStackView],
+                                                                         spacing: Paddings.xxxs)
+    private lazy var informationStackView: UIStackView = createStackView(for: .vertical,
+                                                                         arrangedSubviews: [amountLabel, descriptionLabel, nameLabel])
+    // MARK: Public properties
+
+    /// ImageView
+    lazy var transactionIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .black
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        return imageView
+    }()
+}
 
 extension BankStatementTableViewCell: ViewCode {
     func setupStyle() {
@@ -67,7 +51,6 @@ extension BankStatementTableViewCell: ViewCode {
 
     func setupConstraints() {
         let safeGuide = safeAreaLayoutGuide
-
 
         NSLayoutConstraint.activate([
             cellStackView.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: Paddings.xxs),
